@@ -7,24 +7,20 @@
 <body>
 
 <form th:method="POST" th:action="@{/people}" th:object="${person}">
-    <label for="name">Enter name: </label>
-    <input type="text" th:field="*{name}" id="name"/>
-    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+
+    <label for="name">Enter your full name: </label>
+    <input type="text" th:field="*{fullName}" id="name"/>
+    <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" style="color: red"></div>
     <br/>
-    <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age error</div>
-    <label for="age">Enter age: </label>
-    <input type="text" th:field="*{age}" id="age"/>
+    <label for="year">Year </label>
+    <input type="text" th:field="*{yearOfBirth}" id="year"/>
+    <div th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}" style="color: red"></div>
+
     <br/>
-    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
-    <label for="email">Enter email: </label>
-    <input type="text" th:field="*{email}" id="email"/>
-    <br/>
-    <div style="color:red" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">address error</div>
-    <label for="address">Enter email: </label>
-    <input type="text" th:field="*{address}" id="address"/>
-    <br/>
+
     <input type="submit" value="Create!"/>
 </form>
+<a href="/people">BACK!</a>
 
 </body>
 </html>

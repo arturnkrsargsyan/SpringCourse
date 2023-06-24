@@ -1,20 +1,17 @@
 package org.example.dao;
 
+import org.example.models.Book;
 import org.example.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class PersonDAO {
+
     @Autowired
     private final JdbcTemplate jdbcTemplate;
 
@@ -26,10 +23,10 @@ public class PersonDAO {
         return jdbcTemplate.query("SELECT * FROM person",
                 new BeanPropertyRowMapper<>(Person.class));
     }
-
-    public Optional<Person> show(String email){
-        return jdbcTemplate.query("SELECT * FROM person WHERE email=?",new Object[]{email},
-                new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+    public Person show(final String fullName) {
+        return jdbcTemplate.query("Select * From person Where full_name=?", new Object[]{fullName},
+                        new BeanPropertyRowMapper<>(Person.class))
+                .stream().findAny().orElse(null);
     }
     public Person show(final int id) {
         return jdbcTemplate.query("Select * From person Where id=?", new Object[]{id},
@@ -38,58 +35,21 @@ public class PersonDAO {
     }
 
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO person(name,age,email,address) VALUES (?,?,?,?)",
-                person.getName(), person.getAge(), person.getEmail(),person.getAddress());
+        jdbcTemplate.update("INSERT INTO person(full_name,year_of_birth) VALUES (?,?)",
+                person.getFullName(),person.getYearOfBirth());
     }
 
     public void update(int id, Person person) {
-        jdbcTemplate.update("UPDATE person set name=?,age=?,email=?,address=? where id=?",
-                person.getName(), person.getAge(), person.getEmail(),person.getAddress(), id);
+        jdbcTemplate.update("UPDATE person set full_name=?,year_of_birth=? where id=?",
+                person.getFullName(), person.getYearOfBirth(), id);
     }
 
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM person WHERE id=?", id);
     }
 
-    public void testBatchUpdate() {
-        List<Person> people = create1000People();
-        long before = System.currentTimeMillis();
-        jdbcTemplate.batchUpdate("INSERT INTO person VALUES (?,?,?,?)", new BatchPreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
-                preparedStatement.setInt(1,people.get(i).getId());
-                preparedStatement.setString(2,people.get(i).getName());
-                preparedStatement.setInt(3,people.get(i).getAge());
-                preparedStatement.setString(4 ,people.get(i).getEmail());
-            }
-            @Override
-            public int getBatchSize() {
-                return people.size();
-            }
-        });
-
-
-        long after = System.currentTimeMillis();
-        System.out.println("Time ="+ (after-before));
-    }
-
-    public void testMultipleUpdate() {
-        List<Person> people = create1000People();
-        long before = System.currentTimeMillis();
-        for (Person person : people) {
-            jdbcTemplate.update("INSERT INTO person VALUES (?,?,?,?)",
-                    person.getId(), person.getName(), person.getAge(), person.getEmail());
-        }
-
-        long after = System.currentTimeMillis();
-        System.out.println("Time ="+ (after-before));
-    }
-
-    private List<Person> create1000People() {
-        List<Person> people = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
-            people.add(new Person(i, "name" + i, 12 + i, "mail" + i + "@gmail.com", "address"));
-        }
-        return people;
+    public List<Book> showBooks(int id) {
+        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id = ?", new Object[]{id},
+                new BeanPropertyRowMapper<>(Book.class));
     }
 }

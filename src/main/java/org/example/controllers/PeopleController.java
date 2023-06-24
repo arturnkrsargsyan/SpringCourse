@@ -32,10 +32,12 @@ public class PeopleController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Integer id,
                        Model model) {
+        model.addAttribute("personBooks", personDAO.showBooks(id));
         model.addAttribute("person", personDAO.show(id));
         return "people/show";
     }
 
+    //
     @GetMapping("/new")
     public String newPerson(Model model) {
         model.addAttribute("person", new Person());
@@ -45,7 +47,7 @@ public class PeopleController {
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult) {
-        personValidator.validate(person,bindingResult);
+        personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
             return "people/new";
         }

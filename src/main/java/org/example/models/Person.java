@@ -1,57 +1,26 @@
 package org.example.models;
 
-import javax.validation.constraints.*;
-
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 public class Person {
-    private Integer id;
+    private int id;
     @NotEmpty(message = "Please, enter your name")
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
-    private String name;
+    private String fullName;
 
-    @Min(value = 1, message = "You should be greater than 0")
-    private int age;
-    @NotEmpty(message = "Please, enter your name")
-    @Email(message = "Email should be valid")
-    private String email;
-
-//Russia, Moscow, 123456
-    @Pattern(regexp = "[A-Z]\\w+, [A-Z]\\w+, \\d{6}",message = "Your address should be in this format:Country, City, Postal Code(6 digits)")
-    private String address;
-
+    @Min(value = 1, message = "You should be greater than 5")
+    private int yearOfBirth;
     public Person() {
     }
 
-    public Person(Integer id, String name, int age, String email, String address) {
+    public Person(int id, String fullName, int yearOfBirth) {
         this.id = id;
-        this.name = name;
-        this.age = age;
-        this.email = email;
-        this.address = address;
-    }
-    public String getAddress() {
-        return address;
+        this.fullName = fullName;
+        this.yearOfBirth = yearOfBirth;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -59,13 +28,19 @@ public class Person {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
+    public int getYearOfBirth() {
+        return yearOfBirth;
+    }
 
+    public void setYearOfBirth(int yearOfBirth) {
+        this.yearOfBirth = yearOfBirth;
+    }
 }

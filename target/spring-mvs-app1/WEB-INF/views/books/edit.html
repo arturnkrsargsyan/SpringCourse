@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update person</title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/books/{id}/edit (id=${book.id})}" th:object="${book}">
+    <label for="title">Enter title of book</label>
+    <input type="text" id="title" th:field="*{title}">
+    <br>
+    <label for="author">Enter Author name</label>
+    <input for="author" th:field="*{author}" id="author">
+    <br>
+    <label for="year">Enter Author name</label>
+    <input type="text" id="year" th:field="*{year}">
+    <input type="submit" value="Update!"/>
+</form>
+
+</body>
+</html>
