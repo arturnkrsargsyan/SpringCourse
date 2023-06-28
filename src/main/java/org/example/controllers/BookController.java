@@ -11,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/books")
@@ -48,9 +47,9 @@ public class BookController {
                        Model model,
                        @ModelAttribute("person") Person person) {
         model.addAttribute("book", bookDAO.show(id));
-        Optional<Person> owner = bookDAO.getBookOwner(id);
-        if (owner.isPresent()) {
-            model.addAttribute("owner", owner.get());
+        Person owner = bookDAO.getBookOwner(id);
+        if (owner != null) {
+            model.addAttribute("owner", owner);
         } else {
             model.addAttribute("people", personDAO.index());
         }
@@ -85,7 +84,7 @@ public class BookController {
         if (bindingResult.hasErrors()) {
             return "books/edit";
         }
-        bookDAO.update(id, book);
+        bookDAO.update(book);
         return "redirect:/books";
     }
 
