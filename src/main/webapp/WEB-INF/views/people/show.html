@@ -5,7 +5,7 @@
     <title>Show</title>
 </head>
 <body>
-<p th:text="${person.fullName+', '+person.yearOfBirth}"></p>
+<p th:text="${'Person Full Name: '+person.fullName+', Person  year of birth: '+person.yearOfBirth}"></p>
 <div th:if="${personBooks.isEmpty()}">
     <p>No Books</p>
     <hr/>
