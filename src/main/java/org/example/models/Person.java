@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,12 +21,15 @@ public class Person {
     @Column(name = "full_name")
     private String fullName;
 
-    @Min(value = 1, message = "You should be greater than 5")
+    @Min(value = 5, message = "You should be greater than 5")
     @Column(name = "year_of_birth")
     private int yearOfBirth;
     @OneToMany(mappedBy = "owner")
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private List<Book> books;
+    @Column(name = "registered_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registeredAt;
 
     public Person() {
     }
@@ -70,5 +74,13 @@ public class Person {
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    public Date getRegisteredAt() {
+        return registeredAt;
+    }
+
+    public void setRegisteredAt(Date registeredAt) {
+        this.registeredAt = registeredAt;
     }
 }

@@ -36,7 +36,6 @@ public class PeopleController {
                        Model model) {
         List<Book> books = peopleService.showBooks(id);
         model.addAttribute("personBooks", books);
-        System.out.println(books);//TODO
         model.addAttribute("person", peopleService.findOne(id).get());
         return "people/show";
     }
@@ -58,6 +57,7 @@ public class PeopleController {
     public String create(@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult) {
         personValidator.validate(person, bindingResult);
+        System.out.println(bindingResult);
         if (bindingResult.hasErrors()) {
             return "people/new";
         }

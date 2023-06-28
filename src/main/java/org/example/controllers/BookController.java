@@ -77,9 +77,7 @@ public class BookController {
     @PatchMapping("/{id}/assign")
     public String setOwner(@PathVariable("id") int id,
                            @ModelAttribute("person") Person selectedPerson) {
-        System.out.println("Assign work");//TODO
         booksService.setOwner(id, selectedPerson);
-        System.out.println("assign work 2");
         return "redirect:/books/" + id;
     }
 
